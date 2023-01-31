@@ -1,0 +1,1041 @@
+import Round
+
+myShapes model =
+    case model.state of
+        Main  ->
+            [ text "Geometric Helper"
+                  |> centered
+                  |> size 10
+                  |> filled black
+                  |> move (0, 50)
+            , circle 12
+                  |> filled (rgb 199 186 217)
+                  |> move (-50, 25)
+                  |> notifyTap EnterCircle
+                  |> addHyperlink "\\\\"    -- dummy link to change the cursor
+            , text "Circle"
+                  |> centered
+                  |> size 6
+                  |> filled black
+                  |> move (-50, 5)
+                  |> notifyTap EnterCircle
+            , isosceles 24 24
+                  |> filled (rgb 131 170 229)
+                  |> move (0, 12)
+                  |> notifyTap EnterTriangle
+                  |> addHyperlink "\\\\"    -- dummy link to change the cursor
+            , text "Triangle"
+                  |> centered
+                  |> size 6
+                  |> filled black
+                  |> move (0, 5)
+                  |> notifyTap EnterTriangle
+            , square 24
+                  |> filled (rgb 177 217 231)
+                  |> move (50, 24)
+                  |> notifyTap EnterRectangle
+                  |> addHyperlink "\\\\"    -- dummy link to change the cursor
+            , text "Rectangle"
+                  |> centered
+                  |> size 6
+                  |> filled black
+                  |> move (50, 5)
+                  |> notifyTap EnterRectangle
+            , polygon [(5, 10), (-5, 10), (-15, -10), (15, -10)]
+                  |> filled (rgb 167 224 165)
+                  |> move (-50, -25)
+                  |> notifyTap EnterTrapezoid
+                  |> addHyperlink "\\\\"    -- dummy link to change the cursor
+            , text "Trapezoid"
+                  |> centered
+                  |> size 6
+                  |> filled black
+                  |> move (-50, -45)
+                  |> notifyTap EnterTrapezoid
+            , polygon [(20, 20), (0, 20), (-10, 0), (10, 0)]
+                  |> filled (rgb 250 209 196)
+                  |> move (-5, -35)
+                  |> notifyTap EnterParallelogram
+                  |> addHyperlink "\\\\"    -- dummy link to change the cursor
+            , text "Parallelogram"
+                  |> centered
+                  |> size 6
+                  |> filled black
+                  |> move (0, -45)
+                  |> notifyTap EnterParallelogram
+            , group [
+                rect 30 30
+                  |> ghost
+                  |> move (5, 5)
+              , square 20
+                  |> outlined (solid 1) (rgb 250 116 112)
+              , square 20
+                  |> outlined (solid 1) (rgb 250 116 112)
+                  |> move (10, 10)
+              , line (-10, 10) (0, 20)
+                  |> outlined (solid 1) (rgb 250 116 112)
+              , line (-10, -10) (0, 0)
+                  |> outlined (solid 1) (rgb 250 116 112)
+              , line (10, -10) (20, 0)
+                  |> outlined (solid 1) (rgb 250 116 112)
+              , line (10, 10) (20, 20)
+                  |> outlined (solid 1) (rgb 250 116 112)
+              ]
+                  |> scale 0.7
+                  |> move (45, -30)
+                  |> notifyTap EnterThreeD
+                  |> addHyperlink "\\\\"    -- dummy link to change the cursor
+              , text "3D Objects"
+                  |> centered
+                  |> size 6
+                  |> filled black
+                  |> move (45, -45)
+                  |> notifyTap EnterThreeD
+            ]
+        Trapezoid -> 
+              [ text "Trapezoid"
+                      |> centered
+                      |> filled black
+                      |> move (0,50)
+
+                 -- Description
+                 , text "Description"
+                      |> filled black
+                      |> scale 0.5
+                      |> move (-90,40)
+                 , text "A trapezoid is a four sided polygon (quadrilateral) with two of those sides being parallel and the others not."
+                      |> filled black
+                      |> scale 0.35
+                      |> move (-90,30)
+                , text "The area is calculated in a slightly different way using  base 1 which is a, base 2 which is b  and height which"
+                      |> filled black
+                      |> scale 0.35
+                      |> move (-90,25)
+                , text "is h. The formula is: (a+b)÷2×h."
+                      |> filled black
+                      |> scale 0.35
+                      |> move (-90,20)
+
+                -- Interaction
+                , text "Interaction"
+                      |> filled black
+                      |> scale 0.5
+                      |> move (-90,10)
+                , text "Pull one of the sliders to control the base a, base b or the height of the trapezoid."
+                      |> filled black
+                      |> scale 0.35
+                      |> move (-90,5)
+                , text "Read More: Trapezoids - Definition, Shape, Area, Properties and Examples (byjus.com)"
+                      |> filled black
+                      |> scale 0.35
+                      |> move (-90,0)
+                , rect 15 5
+                      |> filled (black)
+                      |> scale 2
+                      |> move (-75,55)
+                      |> notifyTap ExitTrapezoid
+                , text "Back"
+                      |> filled white
+                      |> scale 0.65
+                      |> move (-85,52)
+                      |> notifyTap ExitTrapezoid
+
+                , polygon [(-model.trapezoidSliderAValue, model.trapezoidSliderHValue), (model.trapezoidSliderAValue, model.trapezoidSliderHValue), (model.trapezoidSliderBValue, -model.trapezoidSliderHValue), (-model.trapezoidSliderBValue, -model.trapezoidSliderHValue)]
+                      |> filled (rgb 167 224 165)
+                      |> move (-50, -30)
+
+                , text ("Base a = " ++ (Round.round 2 (2 * model.trapezoidSliderAValue)))
+                      |> size 7
+                      |> filled black
+                      |> move (-10, -10)
+                , text ("Base b = " ++ (Round.round 2 (2 * model.trapezoidSliderBValue)))
+                      |> size 7
+                      |> filled black
+                      |> move (-10, -25)
+                , text ("Height h = " ++ (Round.round 2 (2 * model.trapezoidSliderHValue)))
+                      |> size 7
+                      |> filled black
+                      |> move (-10, -40)
+                , text ("Area = (a+b)/2*h ≈ " ++ (Round.round 2 (2 * (model.trapezoidSliderAValue + model.trapezoidSliderBValue) * model.trapezoidSliderHValue)))
+                      |> size 7
+                      |> filled black
+                      |> move (-10, -55)
+                , text ("Perimeter ≈ " ++ (Round.round 2 (2 * (model.trapezoidSliderAValue + model.trapezoidSliderBValue + sqrt((model.trapezoidSliderBValue - model.trapezoidSliderAValue)^2 + (2 * model.trapezoidSliderHValue)^2)))))
+                      |> size 7
+                      |> filled black
+                      |> move (-10, -62.5)
+                , mySlider 20 60 (1, 30) TrapezoidSliderADown TrapezoidSliderAMove TrapezoidSliderAUp model.trapezoidSliderAValue model.trapezoidSliderAState
+                      |> move (20, -15)
+                , mySlider 20 60 (1, 30) TrapezoidSliderBDown TrapezoidSliderBMove TrapezoidSliderBUp model.trapezoidSliderBValue model.trapezoidSliderBState
+                      |> move (20, -30)
+                , mySlider 20 60 (1, 30) TrapezoidSliderHDown TrapezoidSliderHMove TrapezoidSliderHUp model.trapezoidSliderHValue model.trapezoidSliderHState
+                      |> move (20, -45)
+                ]
+
+        Circle  ->
+            [ text "Circle"
+                  |> centered
+                  |> filled black
+                  |> move (0,50)
+                  
+             -- Description
+             ,text "Description"
+                  |> filled black
+                  |> scale 0.5
+                  |> move (-90,40)
+             ,text "Circles are completely round with infinite sides! Since it has no usable sides for calculating area, a unique"
+                  |> filled black
+                  |> scale 0.35
+                  |> move (-90,30)
+            ,text "kind of formula must be used. The area of a circle is calculated by multiplying by pi (3.1415926535…) times"
+                  |> filled black
+                  |> scale 0.35
+                  |> move (-90,25)
+            ,text "of the half of the length across it, also known as its radius (r) times itself (r²). Therefore the formula is πr²."
+                  |> filled black
+                  |> scale 0.35
+                  |> move (-90,20)
+
+            -- Interaction
+            ,text "Interaction"
+                  |> filled black
+                  |> scale 0.5
+                  |> move (-90,10)
+            , text "The pi multiplied by is always the same (3.14…) but by changing the radius of the circle, the area changes"
+                  |> filled black
+                  |> scale 0.35
+                  |> move (-90,5)
+            , text "as well. Since the radius is squared, increasing the radius will increase the radius by a lot each time."
+                  |> filled black
+                  |> scale 0.35
+                  |> move (-90,0)
+            , text " Pull the slider to see what the area of different circles are with different radii."
+                  |> filled black
+                  |> scale 0.35
+                  |> move (-90,-5)
+            , text " Read more: Properties of Circle with Definition and Formulas (byjus.com)."
+                  |> filled black
+                  |> scale 0.35
+                  |> move (-90,-10)
+             
+            , rect 15 5
+                  |> filled (black)
+                  |> scale 2
+                  |> move (-75,55)
+                  |> notifyTap Exitcircle
+            ,text "Back"
+                  |> filled white
+                  |> scale 0.65
+                  |> move (-85,52)
+                  |> notifyTap Exitcircle
+            , circle (model.circleSliderValue) -- substitute with variable controlled by slider
+                  |> filled (rgb 199 186 217)
+                  |> move (-50, -37)
+            
+            , text ("Radius r = " ++ (Round.round 2 model.circleSliderValue))
+                  |> size 7
+                  |> filled black
+                  |> move (-10, -30)
+            , text ("Diameter d = 2r = " ++ (Round.round 2 (2 * model.circleSliderValue)))
+                  |> size 7
+                  |> filled black
+                  |> move (-10, -40)
+            , text ("Circumference = πd ≈ " ++ (Round.round 2 (2 * 3.14 * model.circleSliderValue)))
+                  |> size 7
+                  |> filled black
+                  |> move (-10, -50)
+            , text ("Area = πr² ≈ " ++ (Round.round 2 (3.14 * model.circleSliderValue ^ 2)))
+                  |> size 7
+                  |> filled black
+                  |> move (-10, -60)
+            , mySlider 20 60 (1, 25) CircleSliderDown CircleSliderMove CircleSliderUp model.circleSliderValue model.circleSliderState
+                  |> move (20, -18)
+            ]
+            
+        Parallelogram  ->
+            [ text "Parallelogram"
+                  |> centered
+                  |> filled black
+                  |> move (0,50)
+                  
+             -- Description
+             ,text "Description"
+                  |> filled black
+                  |> scale 0.5
+                  |> move (-90,40)
+             ,text "All squares are parallelograms, but not all parallelograms are squares. The area is calculated by the"
+                  |> filled black
+                  |> scale 0.35
+                  |> move (-90,30)
+            ,text "base times the height BUT the height is NOT one of the sides. It is the distance from the top side to the bottom"
+                  |> filled black
+                  |> scale 0.35
+                  |> move (-90,25)
+            ,text "so that it meets both at 90 degrees. The formula is simply the base times the height."
+                  |> filled black
+                  |> scale 0.35
+                  |> move (-90,20)
+
+            -- Interaction
+            ,text "Interaction"
+                  |> filled black
+                  |> scale 0.5
+                  |> move (-90,10)
+            , text "Pull one of the sliders to control the base or the height of the parallelogram."
+                  |> filled black
+                  |> scale 0.35
+                  |> move (-90,5)
+            , text "Read More: https://byjus.com/maths/parallelogram/ "
+                  |> filled black
+                  |> scale 0.35
+                  |> move (-90,0)
+            , rect 15 5
+                  |> filled (black)
+                  |> scale 2
+                  |> move (-75,55)
+                  |> notifyTap ExitParallelogram
+            ,text "Back"
+                  |> filled white
+                  |> scale 0.65
+                  |> move (-85,52)
+                  |> notifyTap ExitParallelogram
+                  
+            , polygon [(-model.parallelogramSliderValue, model.parallelogramSlider2Value), (model.parallelogramSliderValue, model.parallelogramSlider2Value), (1/2*model.parallelogramSliderValue, -model.parallelogramSlider2Value), (-3/2*model.parallelogramSliderValue, -model.parallelogramSlider2Value)] -- substitute with variable controlled by slider
+                  |> filled (rgb 250 209 196)
+                  |> move (-40, -30)
+                  
+            , mySlider 20 60 (1, 30) ParallelogramSlider2Down  ParallelogramSlider2Move  ParallelogramSlider2Up model.parallelogramSlider2Value model.parallelogramSlider2State
+                  |> move (20, -38)
+                             
+            , text ("Base b = " ++ (Round.round 2 model.parallelogramSliderValue))
+                  |> size 7
+                  |> filled black
+                  |> move (-10, -10)
+            , text ("Height h = " ++ (Round.round 2 (model.parallelogramSlider2Value)))
+                  |> size 7
+                  |> filled black
+                  |> move (-10, -30)
+            , text ("Area = b*h ≈ " ++ (Round.round 2 (model.parallelogramSliderValue * model.parallelogramSlider2Value)))
+                  |> size 7
+                  |> filled black
+                  |> move (-10, -50)
+            , mySlider 20 60 (1, 30) ParallelogramSliderDown ParallelogramSliderMove ParallelogramSliderUp model.parallelogramSliderValue model.parallelogramSliderState
+                  |> move (20, -18)
+            ]
+
+        Triangle  ->
+            [ text "Triangle"
+                  |> centered
+                  |> filled black
+                  |> move (0,50)
+                  
+             -- Description
+             ,text "Description"
+                  |> filled black
+                  |> scale 0.5
+                  |> move (-90,40)
+             ,text "Triangles have 3 sides. Additionally there are 3 types of triangles based on its sides, Equilateral"
+                  |> filled black
+                  |> scale 0.35
+                  |> move (-90,30)
+            ,text "(3 equal sides at 60 degrees), Isosceles (two equal sides and two equal angles) and Scalene"
+                  |> filled black
+                  |> scale 0.35
+                  |> move (-90,25)
+            ,text "(no equal sides or angles). Thirdly, there are 3 types of triangles based on its angles, Acute (all angles are"
+                  |> filled black
+                  |> scale 0.35
+                  |> move (-90,20)
+            ,text "less than 90 degrees), Right (has a right angle of 90 degrees) and Obtuse (has an angle over 90 degrees)."
+                  |> filled black
+                  |> scale 0.35
+                  |> move (-90,15)
+            ,text "Because there are so many types of triangles, they can all look very different."
+                  |> filled black
+                  |> scale 0.35
+                  |> move (-90,10)
+                  
+            -- Interaction
+            ,text "Interaction"
+                  |> filled black
+                  |> scale 0.5
+                  |> move (-90,0)
+            , text "The area of a triangle is calculated by half the base (b) times the height (h), all divided by two. Pull the sliders for"
+                  |> filled black
+                  |> scale 0.35
+                  |> move (-90,-5)
+            , text "for the base b and height h OR Pull on the three vertices of the triangle to see the area for each side length."
+                  |> filled black
+                  |> scale 0.35
+                  |> move (-90,-10)
+            , text "Read More: Properties of Triangle | Types and Formulas with Examples (byjus.com)"
+                  |> filled black
+                  |> scale 0.35
+                  |> move (-90,-15)
+           
+            , rect 15 5
+                  |> filled (black)
+                  |> scale 2
+                  |> move (-75,55)
+                  |> notifyTap ExitTriangle
+            ,text "Back"
+                  |> filled white
+                  |> scale 0.65
+                  |> move (-85,52)
+                  |> notifyTap ExitTriangle
+                  
+            , isosceles (model.triangleBaseSliderValue) (model.triangleHeightSliderValue)-- substitute with variable controlled by slider
+                  |> filled (rgb 131 170 229)
+                  |> move (-70, -50)
+            
+            , text ("Base b = " ++ (Round.round 2 model.triangleBaseSliderValue))
+                  |> size 7
+                  |> filled black
+                  |> move (-50, -21)
+            , text ("Height h = " ++ (Round.round 2 (model.triangleHeightSliderValue)))
+                  |> size 7
+                  |> filled black
+                  |> move (-50, -35)
+            , text ("Area = (b×h)÷2 ≈ " ++ (Round.round 2 (model.triangleBaseSliderValue * model.triangleHeightSliderValue / 2)))
+                  |> size 7
+                  |> filled black
+                  |> move (-50, -50)
+            , rect 35 6
+                  |> filled (rgb 0 120 231)
+                  |> scale 2
+                  |> move (55, -32)
+                  |> notifyTap EnterTriangleAngle
+            , text "Interact with angles"
+                  |> centered
+                  |> filled white
+                  |> scale 0.65
+                  |> move (55, -35)
+                  |> notifyTap EnterTriangleAngle
+            , mySlider -20 60 (1, 25) TriangleBaseSliderDown TriangleBaseSliderMove TriangleBaseSliderUp model.triangleBaseSliderValue model.triangleBaseSliderState
+                  |> move (-20, -25)
+            , mySlider -20 60 (1, 30) TriangleHeightSliderDown TriangleHeightSliderMove TriangleHeightSliderUp model.triangleHeightSliderValue model.triangleHeightSliderState
+                  |> move (-20, -40)
+            ]
+            
+        TriangleAngle ->
+            [ rect 15 5
+                  |> filled (black)
+                  |> scale 2
+                  |> move (-75, 55)
+                  |> notifyTap ExitTriangleAngle
+            , text "Back"
+                  |> filled white
+                  |> scale 0.65
+                  |> move (-85,52)
+                  |> notifyTap ExitTriangleAngle
+            , polygon [model.triangleVertex1, model.triangleVertex2, model.triangleVertex3]
+                  |> outlined (solid 0.5) black
+            , text ("Angle 1: " ++ (Round.round 0 model.triangleAngle1) ++ "°")
+                  |> size 8
+                  |> filled black
+                  |> move model.triangleVertex1
+            , text ("Angle 2: " ++ (Round.round 0 model.triangleAngle2) ++ "°")
+                  |> size 8
+                  |> filled black
+                  |> move model.triangleVertex2
+            , text ("Angle 3: " ++ (Round.round 0 model.triangleAngle3) ++ "°")
+                  |> size 8
+                  |> filled black
+                  |> move model.triangleVertex3
+            , text "Drag the vertexes to explore!"
+                  |> size 8
+                  |> filled black
+                  |> move (-55, 52)
+            , text "Sum of angles: 180°"
+                  |> size 8
+                  |> filled black
+                  |> move (-90, -55)
+            , circle 2
+                  |> filled black
+                  |> move model.triangleVertex1
+                  |> notifyMouseDown (TriangleStartDragging 1)
+                  |> notifyMouseUp (TriangleStopDragging)
+                  |> notifyMouseMoveAt (TriangleDragging 1)
+            , circle 2
+                  |> filled black
+                  |> move model.triangleVertex2
+                  |> notifyMouseDown (TriangleStartDragging 2)
+                  |> notifyMouseUp (TriangleStopDragging)
+                  |> notifyMouseMoveAt (TriangleDragging 2)
+            , circle 2
+                  |> filled black
+                  |> move model.triangleVertex3
+                  |> notifyMouseDown (TriangleStartDragging 3)
+                  |> notifyMouseUp (TriangleStopDragging)
+                  |> notifyMouseMoveAt (TriangleDragging 3)
+            , if model.isDraggingTriangleVertex then
+                rect 1000 1000
+                    |> ghost
+                    |> notifyMouseDown (TriangleStartDragging model.draggingTriangleVertex)
+                    |> notifyMouseUp (TriangleStopDragging)
+                    |> notifyMouseMoveAt (TriangleDragging model.draggingTriangleVertex)
+              else
+                group []
+            ]
+
+        ThreeD  ->
+            [ text "3D Objects"
+                  |> centered
+                  |> filled black
+                  |> move (0,50)
+                  
+             -- Description
+             ,text "Description"
+                  |> filled black
+                  |> scale 0.5
+                  |> move (-90,40)
+             ,text "There are many 3D shapes. For example, a cube is basically a 3D square with four sides for 6 faces"
+                  |> filled black
+                  |> scale 0.35
+                  |> move (-90,30)
+            ,text "(6 squares with 4 sides each). It has a surface area (area of all faces of cube) of 6×edge² and a"
+                  |> filled black
+                  |> scale 0.35
+                  |> move (-90,25)
+            ,text "volume (amount of space held inside of cube) of edge³."
+                  |> filled black
+                  |> scale 0.35
+                  |> move (-90,20)
+
+            -- Interaction
+            ,text "Interaction"
+                  |> filled black
+                  |> scale 0.5
+                  |> move (-90,10)
+            , text "Pull the slider of the edge to see the volume and surface area of the shape depending on its size."
+                  |> filled black
+                  |> scale 0.35
+                  |> move (-90,5)
+            , text "Read More: Three Dimensional Shapes (3D Shapes) - Definition & Properties (byjus.com)"
+                  |> filled black
+                  |> scale 0.35
+                  |> move (-90,0)
+                  
+            , group [
+                rect (3*model.threedSliderValue) (3*model.threedSliderValue)
+                  |> ghost
+                  |> move (1/2*model.threedSliderValue, 1/2*model.threedSliderValue)
+              , square (2*model.threedSliderValue)
+                  |> outlined (solid 1) (rgb 250 116 112)
+              , square (2*model.threedSliderValue)
+                  |> outlined (solid 1) (rgb 250 116 112)
+                  |> move (model.threedSliderValue, model.threedSliderValue)
+              , line (-model.threedSliderValue, model.threedSliderValue) (0, 2*model.threedSliderValue)
+                  |> outlined (solid 1) (rgb 250 116 112)
+              , line (-model.threedSliderValue, -model.threedSliderValue) (0, 0)
+                  |> outlined (solid 1) (rgb 250 116 112)
+              , line (model.threedSliderValue, -model.threedSliderValue) (2*model.threedSliderValue, 0)
+                  |> outlined (solid 1) (rgb 250 116 112)
+              , line (model.threedSliderValue, model.threedSliderValue) (2*model.threedSliderValue, 2*model.threedSliderValue)
+                  |> outlined (solid 1) (rgb 250 116 112)
+              ]
+                  |> scale 0.7
+                  |> move (-60, -42)
+                  |> notifyTap EnterThreeD
+                  
+            , rect 15 5
+                  |> filled (black)
+                  |> scale 2
+                  |> move (-75,55)
+                  |> notifyTap ExitThreeD
+            ,text "Back"
+                  |> filled white
+                  |> scale 0.65
+                  |> move (-85,52)
+                  |> notifyTap ExitThreeD
+            
+            , text ("Edge1 = " ++ (Round.round 2 model.threedSliderValue))
+                  |> size 7
+                  |> filled black
+                  |> move (-10, -30)
+            , text ("Edge2 = " ++ (Round.round 2 (model.threedSliderValue)))
+                  |> size 7
+                  |> filled black
+                  |> move (-10, -40)
+            , text ("Volume ≈ e^3 " ++ (Round.round 2 (model.threedSliderValue^3)))
+                  |> size 7
+                  |> filled black
+                  |> move (-10, -50)
+            , text ("Surface Area ≈ " ++ (Round.round 2 (6*model.threedSliderValue^2)))
+                  |> size 7
+                  |> filled black
+                  |> move (-10, -60)
+            , mySlider 20 60 (1, 30) ThreeDSliderDown ThreeDSliderMove ThreeDSliderUp model.threedSliderValue model.threedSliderState
+                  |> move (20, -18)
+            ]
+
+                
+        Rectangle  ->
+            [ text "Rectangle"
+                  |> centered
+                  |> filled black
+                  |> move (0,50)
+                  
+             -- Description
+             ,text "Description"
+                  |> filled black
+                  |> scale 0.5
+                  |> move (-90,40)
+             ,text "A rectangle is a four sided shape with 90 degree angles in each corner. Rectangles with the same length"
+                  |> filled black
+                  |> scale 0.35
+                  |> move (-90,30)
+            ,text "length as its width are called squares. The area of a rectangle is calculated by multiplying its length times"
+                  |> filled black
+                  |> scale 0.35
+                  |> move (-90,25)
+            ,text "its width."
+                  |> filled black
+                  |> scale 0.35
+                  |> move (-90,20)
+
+            -- Interaction
+            ,text "Interaction"
+                  |> filled black
+                  |> scale 0.5
+                  |> move (-90,10)
+            , text "Changing the length and width of the sides can change the area. Click on the length slider to change the length"
+                  |> filled black
+                  |> scale 0.35
+                  |> move (-90,5)
+            , text "of the rectangle and the width slider to change the width of the rectangle."
+                  |> filled black
+                  |> scale 0.35
+                  |> move (-90,0)
+            , text "Read More: Properties of Rectangle | Definition, Formulas, and Examples (byjus.com)"
+                  |> filled black
+                  |> scale 0.35
+                  |> move (-90,-5)
+            , rect 15 5
+                  |> filled (black)
+                  |> scale 2
+                  |> move (-75,55)
+                  |> notifyTap ExitRectangle
+            ,text "Back"
+                  |> filled white
+                  |> scale 0.65
+                  |> move (-85,52)
+                  |> notifyTap ExitRectangle
+                  
+            , rect (model.rectSliderValue) (model.rectSlider2Value)-- substitute with variable controlled by slider
+                  |> filled (rgb 177 217 231)
+                  |> move (-50, -40)
+                  
+            , mySlider 20 60 (1, 30) RectSliderDown RectSliderMove RectSliderUp model.rectSliderValue model.rectSliderState
+                  |> move (20, -18)
+            
+            , text ("Length l = " ++ (Round.round 2 model.rectSliderValue))
+                  |> size 7
+                  |> filled black
+                  |> move (-10, -13)
+                  
+            , mySlider 20 60 (1, 30) RectSlider2Down RectSlider2Move RectSlider2Up model.rectSlider2Value model.rectSlider2State
+                  |> move (20, -38)
+                  
+            , text ("Width w = " ++ (Round.round 2 (model.rectSlider2Value)))
+                  |> size 7
+                  |> filled black
+                  |> move (-10, -33)
+            , text ("Area = l*w ≈ " ++ (Round.round 2 (model.rectSliderValue * model.rectSlider2Value)))
+                  |> size 7
+                  |> filled black
+                  |> move (-10, -50)
+            , text ("Perimiter = 2l+2w ≈ " ++ (Round.round 2 (2*model.rectSliderValue + 2*model.rectSlider2Value)))
+                  |> size 7
+                  |> filled black
+                  |> move (-10, -60)
+            ]
+            
+            
+type SliderState
+  = SliderWaiting
+  | SliderDragging
+  
+  
+type MouseState
+  = Waiting
+  | MouseDownLast (Float,Float)
+
+-- Must set left to the left of the slider!
+mySlider left width (minValue, maxValue) downMsg moveMsg stopMsg currentValue state =
+  let
+    calcValue x =
+      if x <= -width / 2 then
+        minValue
+      else if x >= width / 2 then
+        maxValue
+      else
+        let
+          newValue = minValue + (x + width / 2) / width * (maxValue - minValue)
+        in
+          if abs (newValue - toFloat (floor newValue)) < 0.1 then
+            toFloat (floor newValue)
+          else if abs (toFloat (ceiling newValue) - newValue) < 0.1 then
+            toFloat (ceiling newValue)
+          else
+            newValue
+    
+    mouseDownMsg (x, y) = downMsg (calcValue (x - left))
+    
+    mouseMoveMsg (x, y) = moveMsg (calcValue (x - left))
+    
+    msgbinder = if state == SliderWaiting then
+                  notifyMouseDownAt mouseDownMsg
+                else
+                  notifyMouseMoveAt mouseMoveMsg >> notifyMouseUp stopMsg >> notifyLeave stopMsg
+  in
+    group
+    [
+      roundedRect width 2 2
+        |> filled (rgb 224 224 224)
+        |> msgbinder
+    , rect 3 5
+        |> filled (rgb 0 117 255)
+        |> move ((currentValue - minValue) / (maxValue - minValue) * width - width / 2, 0)
+        |> msgbinder
+    , if state == SliderDragging then
+        rect 1000 1000
+          |> ghost
+          |> msgbinder
+      else
+        group []
+    ]
+
+
+type Msg = Tick Float GetKeyState
+         | EnterCircle
+         | EnterRectangle
+         | EnterThreeD
+         | EnterParallelogram
+         | EnterTrapezoid
+         | EnterTriangle
+         | EnterTriangleAngle
+         | ExitTrapezoid
+         | Exitcircle
+         | ExitTriangle
+         | ExitTriangleAngle
+         | ExitRectangle
+         | ExitParallelogram
+         | ExitThreeD
+         | CircleSliderDown Float
+         | CircleSliderMove Float
+         | CircleSliderUp
+         | TriangleBaseSliderDown Float
+         | TriangleBaseSliderMove Float
+         | TriangleBaseSliderUp
+         | TriangleHeightSliderDown Float
+         | TriangleHeightSliderMove Float
+         | TriangleHeightSliderUp
+         | RectSliderDown Float
+         | RectSliderMove Float
+         | RectSlider2Down Float
+         | RectSlider2Move Float
+         | RectSliderUp
+         | RectSlider2Up
+         | TrapezoidSliderDown Float
+         | TrapezoidSliderMove Float
+         | TrapezoidSliderUp
+         | ParallelogramSliderDown Float
+         | ParallelogramSliderMove Float
+         | ParallelogramSliderUp
+         | ParallelogramSlider2Down Float
+         | ParallelogramSlider2Move Float
+         | ParallelogramSlider2Up
+         | ThreeDSliderDown Float
+         | ThreeDSliderMove Float
+         | ThreeDSliderUp
+         | TrapezoidSliderADown Float
+         | TrapezoidSliderAMove Float
+         | TrapezoidSliderAUp
+         | TrapezoidSliderBDown Float
+         | TrapezoidSliderBMove Float
+         | TrapezoidSliderBUp
+         | TrapezoidSliderHDown Float
+         | TrapezoidSliderHMove Float
+         | TrapezoidSliderHUp
+         | TriangleStartDragging Int
+         | TriangleDragging Int (Float, Float)
+         | TriangleStopDragging
+
+
+type State = Main 
+         | Trapezoid
+         | Circle
+         | Parallelogram
+         | Triangle
+         | TriangleAngle
+         | ThreeD
+         | Rectangle
+
+update msg model =
+    case msg of
+        Tick t _ ->
+            { model | time = t }
+        EnterCircle ->
+            case model.state of
+                Main  ->
+                    { model | state = Circle  }
+                otherwise ->
+                    model
+        EnterRectangle ->
+            case model.state of
+                Main  ->
+                    { model | state = Rectangle  }
+                otherwise ->
+                    model
+        EnterThreeD ->
+            case model.state of
+                Main  ->
+                    { model | state = ThreeD  }
+                otherwise ->
+                    model
+        EnterParallelogram ->
+            case model.state of
+                Main  ->
+                    { model | state = Parallelogram  }
+                otherwise ->
+                    model
+        EnterTrapezoid ->
+            case model.state of
+                Main  ->
+                    { model | state = Trapezoid  }
+                otherwise ->
+                    model
+        EnterTriangle ->
+            case model.state of
+                Main  ->
+                    { model | state = Triangle  }
+                otherwise ->
+                    model
+        EnterTriangleAngle ->
+            case model.state of
+                Triangle  ->
+                    { model | state = TriangleAngle  }
+                otherwise ->
+                    model
+        ExitTrapezoid ->
+            case model.state of
+                Trapezoid  ->
+                    { model | state = Main  }
+                otherwise ->
+                    model
+        Exitcircle ->
+            case model.state of
+                Circle  ->
+                    { model | state = Main  }
+                otherwise ->
+                    model
+        ExitTriangle ->
+            case model.state of
+                Triangle  ->
+                    { model | state = Main  }
+                otherwise ->
+                    model
+        ExitTriangleAngle ->
+            case model.state of
+                TriangleAngle  ->
+                    { model | state = Triangle  }
+                otherwise ->
+                    model
+        ExitRectangle ->
+            case model.state of
+                Rectangle  ->
+                    { model | state = Main  }
+                otherwise ->
+                    model
+        ExitParallelogram ->
+            case model.state of
+                Parallelogram  ->
+                    { model | state = Main  }
+                otherwise ->
+                    model
+        ExitThreeD ->
+            case model.state of
+                ThreeD  ->
+                    { model | state = Main  }
+                otherwise ->
+                    model
+        CircleSliderMove value ->
+          { model | circleSliderValue = value } 
+        CircleSliderDown value ->
+          { model | circleSliderState = SliderDragging, circleSliderValue = value }
+        CircleSliderUp ->
+          { model | circleSliderState = SliderWaiting }
+        TriangleBaseSliderMove value ->
+          { model | triangleBaseSliderValue = value } 
+        TriangleBaseSliderDown value ->
+          { model | triangleBaseSliderState = SliderDragging, triangleBaseSliderValue = value }
+        TriangleBaseSliderUp ->
+          { model | triangleBaseSliderState = SliderWaiting }
+        TriangleHeightSliderMove value ->
+          { model | triangleHeightSliderValue = value } 
+        TriangleHeightSliderDown value ->
+          { model | triangleHeightSliderState = SliderDragging, triangleHeightSliderValue = value }
+        TriangleHeightSliderUp ->
+          { model | triangleHeightSliderState = SliderWaiting }
+        RectSliderMove value ->
+          { model | rectSliderValue = value } 
+        RectSliderDown value ->
+          { model | rectSliderState = SliderDragging, rectSliderValue = value }
+        RectSliderUp ->
+          { model | rectSliderState = SliderWaiting }
+        RectSlider2Move value ->
+          { model | rectSlider2Value = value } 
+        RectSlider2Down value ->
+          { model | rectSlider2State = SliderDragging, rectSlider2Value = value }
+        RectSlider2Up ->
+          { model | rectSlider2State = SliderWaiting }
+        TrapezoidSliderMove value ->
+          { model | trapezoidSliderValue = value } 
+        TrapezoidSliderDown value ->
+          { model | trapezoidSliderState = SliderDragging, trapezoidSliderValue = value }
+        TrapezoidSliderUp ->
+          { model | trapezoidSliderState = SliderWaiting }
+        ParallelogramSliderMove value ->
+          { model | parallelogramSliderValue = value } 
+        ParallelogramSliderDown value ->
+          { model | parallelogramSliderState = SliderDragging, parallelogramSliderValue = value }
+        ParallelogramSliderUp ->
+          { model | parallelogramSliderState = SliderWaiting }
+        ParallelogramSlider2Move value ->
+          { model | parallelogramSlider2Value = value } 
+        ParallelogramSlider2Down value ->
+          { model | parallelogramSlider2State = SliderDragging, parallelogramSlider2Value = value }
+        ParallelogramSlider2Up ->
+          { model | parallelogramSlider2State = SliderWaiting }
+        ThreeDSliderDown value ->
+          { model | threedSliderState = SliderDragging, threedSliderValue = value }
+        ThreeDSliderUp ->
+          { model | threedSliderState = SliderWaiting }
+        ThreeDSliderMove value ->
+          { model | threedSliderValue = value }
+        TrapezoidSliderAMove value ->
+          { model | trapezoidSliderAValue = value } 
+        TrapezoidSliderADown value ->
+          { model | trapezoidSliderAState = SliderDragging, trapezoidSliderAValue = value }
+        TrapezoidSliderAUp ->
+          { model | trapezoidSliderAState = SliderWaiting }
+        TrapezoidSliderBMove value ->
+          { model | trapezoidSliderBValue = value } 
+        TrapezoidSliderBDown value ->
+          { model | trapezoidSliderBState = SliderDragging, trapezoidSliderBValue = value }
+        TrapezoidSliderBUp ->
+          { model | trapezoidSliderBState = SliderWaiting }
+        TrapezoidSliderHMove value ->
+          { model | trapezoidSliderHValue = value } 
+        TrapezoidSliderHDown value ->
+          { model | trapezoidSliderHState = SliderDragging, trapezoidSliderHValue = value }
+        TrapezoidSliderHUp ->
+          { model | trapezoidSliderHState = SliderWaiting }
+        TriangleStartDragging index ->
+          { model
+          | isDraggingTriangleVertex = True
+          , draggingTriangleVertex = index }
+        TriangleDragging index (x, y) ->
+          let
+            side1 = distance model.triangleVertex2 model.triangleVertex3
+            side2 = distance model.triangleVertex1 model.triangleVertex3
+            side3 = distance model.triangleVertex1 model.triangleVertex2
+          in
+            if model.isDraggingTriangleVertex then
+              { model
+              | triangleVertex1 = if index == 1 then (x, y) else model.triangleVertex1
+              , triangleVertex2 = if index == 2 then (x, y) else model.triangleVertex2
+              , triangleVertex3 = if index == 3 then (x, y) else model.triangleVertex3
+              , triangleAngle1 = getAngleByCosineLaw side2 side3 side1
+              , triangleAngle2 = getAngleByCosineLaw side1 side3 side2
+              , triangleAngle3 = getAngleByCosineLaw side1 side2 side3 }
+            else
+              model
+        TriangleStopDragging -> { model | isDraggingTriangleVertex = False }
+
+        
+
+type alias Model =
+    { time : Float
+    , state : State
+    , mouseState : MouseState
+    , circleSliderState : SliderState
+    , circleSliderValue: Float
+    , triangleBaseSliderState : SliderState
+    , triangleBaseSliderValue : Float
+    , triangleHeightSliderState : SliderState
+    , triangleHeightSliderValue : Float
+    , rectSliderState : SliderState
+    , rectSliderValue : Float
+    , rectSlider2State : SliderState
+    , rectSlider2Value : Float
+    , trapezoidSliderState : SliderState
+    , trapezoidSliderValue : Float
+    , parallelogramSliderState : SliderState
+    , parallelogramSliderValue : Float
+    , parallelogramSlider2State : SliderState
+    , parallelogramSlider2Value : Float
+    , threedSliderState : SliderState
+    , threedSliderValue : Float
+    , trapezoidSliderAState : SliderState
+    , trapezoidSliderAValue : Float
+    , trapezoidSliderBState : SliderState
+    , trapezoidSliderBValue : Float
+    , trapezoidSliderHState : SliderState
+    , trapezoidSliderHValue : Float
+    , triangleVertex1 : (Float, Float)
+    , triangleVertex2 : (Float, Float)
+    , triangleVertex3 : (Float, Float)
+    , triangleAngle1 : Float
+    , triangleAngle2 : Float
+    , triangleAngle3 : Float
+    , isDraggingTriangleVertex : Bool
+    , draggingTriangleVertex : Int
+    }
+
+init : Model
+init = { time = 0 
+       , state = Main
+       , mouseState = Waiting
+       , circleSliderState = SliderWaiting
+       , circleSliderValue = 15
+       , triangleBaseSliderState = SliderWaiting
+       , triangleBaseSliderValue = 15
+       , triangleHeightSliderState = SliderWaiting
+       , triangleHeightSliderValue = 15
+       , rectSliderState = SliderWaiting
+       , rectSliderValue = 15
+       , rectSlider2State = SliderWaiting
+       , rectSlider2Value = 15
+       , trapezoidSliderState = SliderWaiting
+       , trapezoidSliderValue = 6
+       , parallelogramSliderState = SliderWaiting
+       , parallelogramSliderValue = 15
+       , parallelogramSlider2State = SliderWaiting
+       , parallelogramSlider2Value = 15
+       , threedSliderState = SliderWaiting
+       , threedSliderValue = 15
+       , trapezoidSliderAState = SliderWaiting
+       , trapezoidSliderAValue = 7.5
+       , trapezoidSliderBState = SliderWaiting
+       , trapezoidSliderBValue = 15
+       , trapezoidSliderHState = SliderWaiting
+       , trapezoidSliderHValue = 15
+       , triangleVertex1 = (0, 0)
+       , triangleVertex2 = (50, 50)
+       , triangleVertex3 = (50, -50)
+       , triangleAngle1 = 90
+       , triangleAngle2 = 45
+       , triangleAngle3 = 45
+       , isDraggingTriangleVertex = False
+       , draggingTriangleVertex = 0
+       }
+
+distance (x1, y1) (x2, y2) = sqrt ((x2 - x1)^2 + (y2 - y1) ^ 2)
+
+getAngleByCosineLaw neighborSide1 neighborSide2 oppositeSide =
+  180 / pi * acos ((neighborSide1 ^ 2 + neighborSide2 ^ 2 - oppositeSide ^ 2) / (2 * neighborSide1 * neighborSide2))
+ 
+-----3D share Link: https://macoutreach.rocks/share/fe436889 -----
+--Meant to help people realise visually the properties of some basic math shapes and how changing different attributes of those shapes affect different properties--
