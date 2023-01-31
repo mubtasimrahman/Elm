@@ -1,0 +1,346 @@
+import Bootstrap.Form.Input as Input
+import Html.Events as Events
+
+type alias Model =
+  { navKey : Navigation.Key
+  , page : Page
+  , time : Float
+  , navbarState : Navbar.State
+  , accordionStates : Accordion.State
+  , carouselStates : Carousel.State
+  , debug : String
+  }
+
+type Bear = Bear Name Image Habitat
+
+type alias Name = String
+
+type alias Image = String
+
+type alias Habitat = String
+
+bearList = [
+  Bear "Panda"
+  "https://upload.wikimedia.org/wikipedia/commons/0/0f/Grosser_Panda.JPG"
+  "Pandas live mainly in temperate forests high in the mountains of southwest China, where they subsist almost entirely on bamboo."
+  ,
+  Bear "Polar"
+  "https://a57.foxnews.com/static.foxnews.com/foxnews.com/content/uploads/2019/12/931/524/polar-bear.jpg?ve=1&tl=1"
+  "Polar bears inhabit arctic sea ice, water, islands, and continental coastlines. Polar bears prefer sea ice habitat with leads and polynyas, next to continental coastlines or islands."
+  ,
+  Bear "Brown"
+  "https://www.nps.gov/lacl/learn/nature/images/Image-w-cred-cap_-1200w-_-Brown-Bear-page_-brown-bear-in-fog_2.jpg?maxwidth=1200&maxheight=1200&autorotate=false"
+  "Brown bears can be found in many habitats, from the fringes of deserts to high mountain forests and ice fields. In Europe, the brown bear is mostly found in mountain woodlands."
+  ,
+  Bear "American Black"
+  "https://upload.wikimedia.org/wikipedia/commons/0/08/01_Schwarzb%C3%A4r.jpg"
+  "They inhabit both coniferous and deciduous forests, as well as open alpine habitats. They typically don't occur on the Great Plains or other wide-open areas."
+  ,
+  Bear "Asian Black"
+  "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b7/Ursus_thibetanus_3_%28Wroclaw_zoo%29.JPG/1200px-Ursus_thibetanus_3_%28Wroclaw_zoo%29.JPG"
+  "It typically inhabits deciduous forests, mixed forests and thornbrush forests. In the summer, it usually inhabits altitudes of around 3,500 m (11,480 ft) in the Himalayas."
+  ,
+  Bear "Sloth"
+  "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6c/Sloth_Bear_Washington_DC.JPG/1200px-Sloth_Bear_Washington_DC.JPG"
+  "Sloth bears live in a variety of dry and moist forests and in some tall grasslands, where boulders, scattered shrubs and trees provide shelter."
+  ,
+  Bear "Sun"
+  "https://images.newscientist.com/wp-content/uploads/2019/03/21143748/20540022-1.jpg"
+  "These bears dwell in deciduous and seasonally evergreen forests to the north of the Isthmus of Kra, and non-seasonal evergreen forests in Indonesia and Malaysia."
+  ,
+  Bear "Wolverine"
+  "https://cdn.britannica.com/32/193032-050-C92D7C5E/Wolverine.jpg"
+  "Wolverines frequent remote boreal forests, taiga, and tundra in the northern latitudes of Europe, Asia, and North America."
+  ,
+  Bear "Grizzly"
+  "https://imagesvc.meredithcorp.io/v3/mm/image?url=https%3A%2F%2Fstatic.onecms.io%2Fwp-content%2Fuploads%2Fsites%2F20%2F2019%2F09%2Fgrizzly-bear.jpg&q=85"
+  "Grizzly bears can be found in woodlands, forests, alpine meadows, and prairies. In many habitats they prefer riparian areas along rivers and streams."
+  ,
+  Bear "Spectacled"
+  "http://29palms.ru/photo/blog/animals/medved-3/resized/014_Blog_Pavla_Aksenova_Ochkovyy_medved'_(Tremarctos_ornatus)_Foto_Christian_-_Depositphotos.jpg"
+  "These bears can live in the Andean deserts and up through the misty cloud forests to the mountain-top paramo grasslands."
+  ]
+
+searched : List String -> Bear -> Bool
+searched searchStrings (Bear name link diet) = List.member True (List.map (\str -> String.contains str (String.toLower name)) searchStrings)
+
+slideshow (Bear name link diet) = Slide.config [] (image "250px" link)
+
+type Page
+  = Home
+  | Search String (List String)
+  | Year Int
+  | NotFound
+
+type Msg
+  = UrlChange Url
+  | ClickedLink UrlRequest
+  | NavbarMsg Navbar.State
+  | NoOp
+  | AccordionMsg Accordion.State
+  | CarouselMsg Carousel.Msg
+  | Tick Float
+  | UpdateSearch String
+  | GoYear Int
+
+init : Flags -> Url -> Navigation.Key -> ( Model, Cmd Msg )
+init flags url key =
+  let
+    ( navbarState, navCmd ) =
+      Navbar.initialState NavbarMsg
+
+    ( model, urlCmd ) =
+      urlUpdate url { navKey = key
+      , navbarState = navbarState
+      , page = Home
+      , time = 0
+      , accordionStates = Accordion.initialStateCardOpen ""
+      , carouselStates = Carousel.initialState
+      , debug = ""
+      }
+  in
+    ( model, Cmd.batch [ urlCmd, navCmd ] )
+
+subscriptions : Model -> Sub Msg
+subscriptions model =
+  Sub.batch [ Navbar.subscriptions model.navbarState NavbarMsg
+            , Accordion.subscriptions model.accordionStates AccordionMsg
+            , Carousel.subscriptions model.carouselStates CarouselMsg
+            , onAnimationFrame ( \ posix -> Tick ((Time.posixToMillis posix |> toFloat) * 0.001) )
+            ]
+
+update : Msg -> Model -> ( Model, Cmd Msg )
+update msg model =
+  case msg of
+    ClickedLink req ->
+      case req of
+        Browser.Internal url ->
+          ({model | debug = Url.toString url}, Navigation.pushUrl model.navKey <| Url.toString url )
+
+        Browser.External href ->
+          ( model, Navigation.load href )
+
+    UrlChange url ->
+      urlUpdate url model
+
+    NavbarMsg state ->
+      ( { model | navbarState = state }
+      , Cmd.none
+      )
+
+    NoOp -> (model, Cmd.none)
+
+    AccordionMsg state ->
+      ( { model | accordionStates = state }
+      , Cmd.none
+      )
+
+    CarouselMsg cMsg ->
+      ( {model | carouselStates =  Carousel.update cMsg model.carouselStates }
+      , Cmd.none
+      )
+
+    Tick t -> ( { model | time = t }, Cmd.none )
+  
+    UpdateSearch str ->
+      ( { model | page = parseSearchString str}, Cmd.none )
+
+    GoYear year ->
+      ( { model | page = Year year }, Cmd.none )
+
+filterChars char = if Char.isLower char || Char.isUpper char || Char.isDigit char || char == ' ' then True else False
+
+commonWrds wrd = case wrd of
+  "the" -> False
+  "best" -> False
+  "with" -> False
+  "about" -> False
+  "and" -> False
+  "as" -> False
+  "at" -> False
+  "a" -> False
+  "to" -> False
+  "in" -> False
+  "by" -> False
+  "on" -> False
+  "for" -> False
+  "from" -> False
+  "greatest" -> False
+  "ever" -> False
+  "school" -> False
+  "grade" -> False
+  "catholic" -> False
+  "public" -> False
+  "junior" -> False
+  "senior" -> False
+  "elementary" -> False
+  "secondary" -> False
+  "district" -> False
+  "" -> False
+  _ -> True
+
+resetViewport : Cmd Msg
+resetViewport =
+  Task.perform (\_ -> NoOp) (Dom.setViewport 0 0)
+
+urlUpdate : Url -> Model -> ( Model, Cmd Msg )
+urlUpdate url model =
+  case decode url of
+    Nothing ->
+      ( { model | page = NotFound }, resetViewport )
+
+    Just route ->
+      ( { model | page = route, debug = "^"++model.debug }, resetViewport )
+
+decode : Url -> Maybe Page
+decode url =
+  { url | path = Maybe.withDefault "" url.fragment, fragment = Nothing }
+  |> UrlParser.parse routeParser
+
+routeParser : Parser (Page -> a) a
+routeParser =
+  UrlParser.oneOf
+    [ UrlParser.map Year (UrlParser.s "year" </> UrlParser.int)
+    , UrlParser.map parseSearchString (s "search" </> UrlParser.string )
+    , UrlParser.map Home top
+    ]
+
+parseSearchString : String -> Page
+parseSearchString str =
+  let searchString = String.filter filterChars str
+      listWords = (String.split " " (String.toLower searchString))
+      firstList = List.take ((List.length listWords)-1) listWords
+      lastList = List.drop ((List.length listWords)-1) listWords
+      searchList = (List.filter commonWrds firstList)++lastList
+  in Search searchString searchList
+
+view : Model -> Browser.Document Msg
+view model =
+  {
+  title = case model.page of
+    Year year ->
+      String.fromInt year ++ " on Sesame Street"
+
+    NotFound ->
+      "Page Not Found"
+
+    _ ->
+      ""
+
+  , body =
+    [
+    Html.node "link" [attribute "rel" "stylesheet", href "https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"] []
+    , Html.node "link" [attribute "rel" "stylesheet", href "https://documents.mcmaster.ca/www/cdn/css/1.0/mcm-bw.css"] []
+    , Html.div []
+      [ mainContent model ]
+    ]
+  }
+
+mainContent : Model -> Html Msg
+mainContent model =
+  Grid.container []
+    <|
+      ( Navbar.config NavbarMsg
+        |> Navbar.withAnimation
+        |> Navbar.collapseMedium
+        |> Navbar.success
+        |> Navbar.brand
+            [ href "#" ]
+            [ Html.img
+                [ src "https://image.shutterstock.com/image-vector/vector-logo-black-grizzly-bear-600w-1570260601.jpg"
+                , class "d-inline-block align-top"
+                , style  "width" "120px"
+                ]
+                []
+            ]
+        |> Navbar.items
+            [
+              Navbar.itemLink
+                [ href "#" ] [ Html.text "Home" ]
+
+            , Navbar.dropdown
+                { id = "mydropdown"
+                , toggle = Navbar.dropdownToggle [] [ Html.text "Links" ]
+                , items = [
+                          Navbar.dropdownItem [ href "https://en.wikipedia.org/wiki/Bear", target "_blank" ] [ Html.text "Wikipedia" ]
+                         ,Navbar.dropdownItem [ href "https://www.nationalgeographic.com/animals/mammals/facts/bears-grizzly-polar-panda", target "_blank"  ] [ Html.text "National Geographic" ]
+                         ,Navbar.dropdownItem [ href "https://www.seriousfacts.com/bear-facts/", target "_blank"  ] [ Html.text "Facts" ]
+                          ]
+                }
+            , Navbar.itemLink
+                [ href "#" ] [ Html.text "Donate" ]
+            , Navbar.itemLink
+                [ href "#" ] [ Html.text "Contact" ]
+            ]
+        |> Navbar.customItems
+            [ Navbar.formItem []
+                [ Input.text [ Input.attrs [placeholder "Bear Search"
+                                , value ( case model.page of
+                                            Search searchString _ -> searchString
+                                            _ -> ""
+                                        )
+                                , Events.onInput UpdateSearch ]]
+                ]
+            ]
+        |> Navbar.view model.navbarState
+    )
+    ::
+    ( case model.page of
+        Home ->
+            homeBody model
+
+        Year year ->
+            yearBody model year
+
+        Search searchString searchList ->
+            [ Carousel.config CarouselMsg []
+              |> Carousel.withIndicators
+              |> Carousel.withControls
+              |> Carousel.slides (List.map slideshow (List.filter (searched searchList) bearList))
+              |> Carousel.view model.carouselStates
+            , if List.length (List.filter (searched searchList) bearList) == 0 then
+                Html.text ("No matching results for \"" ++ searchString ++ "\", please try something else.")
+              else
+                Accordion.config AccordionMsg
+                  |> Accordion.withAnimation
+                  |> Accordion.cards (List.map makeCard (List.filter (searched searchList) bearList))
+                  |> Accordion.view model.accordionStates
+            ]
+
+        NotFound ->
+            pageNotFound
+    )
+
+makeCard (Bear name link diet) = Accordion.card
+                                        { id = name
+                                        , options = []
+                                        , header =
+                                            Accordion.header [] <| Accordion.toggle [] [ Html.text name ]
+                                        , blocks =
+                                            [ Accordion.block []
+                                                [ Block.text [] [ Html.text diet ] ]
+                                            ]
+                                        }
+
+homeBody : Model -> List (Html Msg)
+homeBody model = []
+
+yearBody : Model -> Int -> List (Html Msg)
+yearBody model year =
+  [ Html.h1 [Spacing.my4] [ Html.text <| "The year "++String.fromInt year++" was a very busy year!" ]
+  , Html.text "Watch for the lastest news in this space."
+  ]
+
+pageNotFound : List (Html Msg)
+pageNotFound =
+  [ Html.h1 [Spacing.my4] [ Html.text "Not found" ]
+  , Html.text "Sorry, couldn't find that page"
+  ]
+
+blankLine = Grid.row []
+            [ Grid.col []
+                [ Html.h6[Spacing.my3][]
+                ]
+            ]
+ 
+-----3D Share Link: https://macoutreach.rocks/share/54e42d5e -----
