@@ -1,0 +1,930 @@
+myShapes model =
+case model.state of
+Cafeteria ->
+[ square 400
+|> filled darkGray
+,
+roundedRect 70 15 2
+|> outlined (dotted 1) darkRed
+|> move (0,5)
+,
+roundedRect 70 15 2
+|> filled darkCharcoal
+|> move (-50,35)
+|> notifyTap P1L
+,
+roundedRect 70 15 2
+|> filled darkCharcoal
+|> move (50,35)
+|> notifyTap P1LD
+,
+text "Cafeteria"
+|> centered
+|> customFont "Impact"
+|> filled darkRed
+,
+text "UpperEngine"
+|> centered
+|> customFont "Impact"
+|> filled (hsl (degrees 30 * model.time) 1 0.5)
+|> move (-50,30)
+|> notifyTap P1L
+,
+text "MedBay"
+|> centered
+|> customFont "Impact"
+|> filled (hsl (degrees 30 * model.time) 1 0.5)
+|> move (50,30)
+|> notifyTap P1LD
+]
+UpperEngine ->
+[ square 400
+|> filled darkGray
+,
+roundedRect 70 15 2
+|> outlined (dotted 1) darkRed
+|> move (0,5)
+,
+roundedRect 70 15 2
+|> filled darkCharcoal
+|> move (-50,35)
+|> notifyTap P2DL
+,
+roundedRect 70 15 2
+|> filled darkCharcoal
+|> move (50,35)
+|> notifyTap P2D
+,
+roundedRect 70 15 2
+|> filled darkCharcoal
+|> move (-50,-25)
+|> notifyTap P2DR
+,
+text "UpperEngine"
+|> centered
+|> customFont "Impact"
+|> filled darkRed
+,
+text "Reactor"
+|> centered
+|> customFont "Impact"
+|> filled (hsl (degrees 30 * model.time) 1 0.5)
+|> move (-50,30)
+|> notifyTap P2DL
+,
+text "LowerEngine"
+|> centered
+|> customFont "Impact"
+|> filled (hsl (degrees 30 * model.time) 1 0.5)
+|> move (50,30)
+|> notifyTap P2D
+,
+text "Security"
+|> centered
+|> customFont "Impact"
+|> filled (hsl (degrees 30 * model.time) 1 0.5)
+|> move (-50,-30)
+|> notifyTap P2DR
+]
+MedBay ->
+[ square 400
+|> filled darkGray
+,
+roundedRect 70 15 2
+|> outlined (dotted 1) darkRed
+|> move (0,5)
+,
+roundedRect 70 15 2
+|> filled darkCharcoal
+|> move (-50,35)
+|> notifyTap P1UL
+,
+text "MedBay"
+|> centered
+|> customFont "Impact"
+|> filled darkRed
+,
+text "UpperEngine"
+|> centered
+|> customFont "Impact"
+|> filled (hsl (degrees 30 * model.time) 1 0.5)
+|> move (-50,30)
+|> notifyTap P1UL
+]
+Reactor ->
+[ square 400
+|> filled darkGray
+,
+roundedRect 70 15 2
+|> outlined (dotted 1) darkRed
+|> move (0,5)
+,
+roundedRect 70 15 2
+|> filled darkCharcoal
+|> move (-50,35)
+|> notifyTap T1
+,
+roundedRect 70 15 2
+|> filled darkCharcoal
+|> move (50,35)
+|> notifyTap P2RD
+,
+roundedRect 70 15 2
+|> filled darkCharcoal
+|> move (-50,-25)
+|> notifyTap P2R
+,
+text "Reactor"
+|> centered
+|> customFont "Impact"
+|> filled darkRed
+,
+text "CleanUpTask"
+|> centered
+|> customFont "Impact"
+|> filled (hsl (degrees 30 * model.time) 1 0.5)
+|> move (-50,30)
+|> notifyTap T1
+,
+text "LowerEngine"
+|> centered
+|> customFont "Impact"
+|> filled (hsl (degrees 30 * model.time) 1 0.5)
+|> move (50,30)
+|> notifyTap P2RD
+,
+text "Security"
+|> centered
+|> customFont "Impact"
+|> filled (hsl (degrees 30 * model.time) 1 0.5)
+|> move (-50,-30)
+|> notifyTap P2R
+]
+Security ->
+[ square 400
+|> filled darkGray
+,
+roundedRect 70 15 2
+|> outlined (dotted 1) darkRed
+|> move (0,5)
+,
+roundedRect 70 15 2
+|> filled darkCharcoal
+|> move (-50,35)
+|> notifyTap P2L
+,
+roundedRect 70 15 2
+|> filled darkCharcoal
+|> move (50,35)
+|> notifyTap P2LD
+,
+text "Security"
+|> centered
+|> customFont "Impact"
+|> filled darkRed
+,
+text "Reactor"
+|> centered
+|> customFont "Impact"
+|> filled (hsl (degrees 30 * model.time) 1 0.5)
+|> move (-50,30)
+|> notifyTap P2L
+,
+text "LowerEngine"
+|> centered
+|> customFont "Impact"
+|> filled (hsl (degrees 30 * model.time) 1 0.5)
+|> move (50,30)
+|> notifyTap P2LD
+]
+LowerEngine ->
+[ square 400
+|> filled darkGray
+,
+roundedRect 70 15 2
+|> outlined (dotted 1) darkRed
+|> move (0,5)
+,
+roundedRect 70 15 2
+|> filled darkCharcoal
+|> move (-50,35)
+|> notifyTap P3RDRU
+,
+roundedRect 70 15 2
+|> filled darkCharcoal
+|> move (50,35)
+|> notifyTap P3RDR
+,
+text "LowerEngine"
+|> centered
+|> customFont "Impact"
+|> filled darkRed
+,
+text "Electrical"
+|> centered
+|> customFont "Impact"
+|> filled (hsl (degrees 30 * model.time) 1 0.5)
+|> move (-50,30)
+|> notifyTap P3RDRU
+,
+text "Storage"
+|> centered
+|> customFont "Impact"
+|> filled (hsl (degrees 30 * model.time) 1 0.5)
+|> move (50,30)
+|> notifyTap P3RDR
+]
+Storage ->
+[ square 400
+|> filled darkGray
+,
+roundedRect 70 15 2
+|> outlined (dotted 1) darkRed
+|> move (0,5)
+,
+roundedRect 70 15 2
+|> filled darkCharcoal
+|> move (-50,35)
+|> notifyTap P4U
+,
+roundedRect 70 15 2
+|> filled darkCharcoal
+|> move (50,35)
+|> notifyTap P4UR
+,
+text "Storage"
+|> centered
+|> customFont "Impact"
+|> filled darkRed
+,
+text "Cafeteria"
+|> centered
+|> customFont "Impact"
+|> filled (hsl (degrees 30 * model.time) 1 0.5)
+|> move (-50,30)
+|> notifyTap P4U
+,
+text "Admin"
+|> centered
+|> customFont "Impact"
+|> filled (hsl (degrees 30 * model.time) 1 0.5)
+|> move (50,30)
+|> notifyTap P4UR
+]
+Electrical ->
+[ square 400
+|> filled darkGray
+,
+roundedRect 70 15 2
+|> outlined (dotted 1) darkRed
+|> move (0,5)
+,
+roundedRect 70 15 2
+|> filled darkCharcoal
+|> move (-50,35)
+|> notifyTap P3DR
+,
+text "Electrical"
+|> centered
+|> customFont "Impact"
+|> filled darkRed
+,
+text "Storage"
+|> centered
+|> customFont "Impact"
+|> filled (hsl (degrees 30 * model.time) 1 0.5)
+|> move (-50,30)
+|> notifyTap P3DR
+]
+Admin ->
+[ square 400
+|> filled darkGray
+,
+roundedRect 70 15 2
+|> outlined (dotted 1) darkRed
+|> move (0,5)
+,
+roundedRect 70 15 2
+|> filled darkCharcoal
+|> move (-50,35)
+|> notifyTap P4LU
+,
+roundedRect 70 15 2
+|> filled darkCharcoal
+|> move (50,35)
+|> notifyTap T2
+,
+text "Admin"
+|> centered
+|> customFont "Impact"
+|> filled darkRed
+,
+text "Cafeteria"
+|> centered
+|> customFont "Impact"
+|> filled (hsl (degrees 30 * model.time) 1 0.5)
+|> move (-50,30)
+|> notifyTap P4LU
+,
+text "SwipeCardTask"
+|> centered
+|> customFont "Impact"
+|> filled (hsl (degrees 30 * model.time) 1 0.5)
+|> move (50,30)
+|> notifyTap T2
+]
+CleanUpTask ->
+[ square 200 |> filled lightBlue
+,
+square 10
+|> filled grey
+|> scale 6
+|> scaleY 3
+|> move (-70,0),
+square 10
+|> filled black
+|> scaleX 0.2
+|> scaleY 18
+|> move (-40,0),
+square 10
+|> filled black
+|> scaleY 4
+|> move (-60,0),
+triangle 10
+|> filled darkGray
+|> move (-80,0),
+triangle 10
+|> filled darkGray
+|> rotate (degrees 60)
+|> scale 0.55
+|> move (-45,-1)
+,
+if model.goals < 6 then
+if model.time - model.cleanUpStartTime > timeAllowed then
+text ("Task failed!")
+|> centered
+|> customFont "Impact"
+|> filled (hsl (degrees 30 * model.time) 1 0.5)
+|> move (55,-60)
+else
+text ("Time left: " ++ (Round.round 1 (timeAllowed - model.time + model.cleanUpStartTime)) ++ "s")
+|> centered
+|> customFont "Impact"
+|> filled (hsl (degrees 30 * model.time) 1 0.5)
+|> move (55,-60)
+else
+text ("Task completed!")
+|> centered
+|> customFont "Impact"
+|> filled (hsl (degrees 30 * model.time) 1 0.5)
+|> move (50,-60)
+,
+if model.time - model.cleanUpStartTime < timeAllowed then
+group [
+group[curve (0,0) [Pull (10,0) (20,-10)]
+|> filled darkGreen
+|> scale 2
+|> move model.pos1,
+--leaf1--
+curve (0,0) [Pull (10,0) (20,-10)]
+|> filled yellow
+|> move (-20,10)
+|> scale 2
+|> rotate (degrees -180)
+|> move model.pos1] |> notifyMouseDown (ChangeDragState 1) |> move (20 * sin (model.time),0)
+|> move (0,20 * sin (model.time)),
+
+group[curve (0,0) [Pull (10,0) (20,-10)]
+|> filled darkGreen
+|> scale 2
+|> move model.pos2,
+--leaf2--
+curve (0,0) [Pull (10,0) (20,-10)]
+|> filled yellow
+|> move (-20,10)
+|> scale 2
+|> rotate (degrees -180)
+|> move model.pos2] |> notifyMouseDown (ChangeDragState 2) |> move (20 * sin (model.time),0)
+|> move (0,-20 * sin (model.time)),
+
+group[curve (0,0) [Pull (10,0) (20,-10)]
+|> filled yellow
+|> scale 2
+|> move model.pos3,
+--leaf3--
+curve (0,0) [Pull (10,0) (20,-10)]
+|> filled darkGreen
+|> move (-20,10)
+|> scale 2
+|> rotate (degrees -180)
+|> move model.pos3] |> notifyMouseDown (ChangeDragState 3) |> move (-20 * sin (model.time),0)
+|> move (0,20 * sin (model.time)),
+
+group[curve (0,0) [Pull (10,0) (20,-10)]
+|> filled yellow
+|> scale 2
+|> move model.pos4,
+--leaf4--
+curve (0,0) [Pull (10,0) (20,-10)]
+|> filled darkGreen
+|> move (-20,10)
+|> scale 2
+|> rotate (degrees -180)
+|> move model.pos4] |> notifyMouseDown (ChangeDragState 4) |> move (-20 * sin (model.time),0)
+|> move (0,-20 * sin (model.time)),
+
+group[curve (0,0) [Pull (10,0) (20,-10)]
+|> filled darkGreen
+|> scale 2
+|> move model.pos5,
+--leaf5--
+curve (0,0) [Pull (10,0) (20,-10)]
+|> filled lightYellow
+|> move (-20,10)
+|> scale 2
+|> rotate (degrees -180)
+|> move model.pos5] |> notifyMouseDown (ChangeDragState 5) |> move (-20 * sin (model.time),0)
+|> move (0,-20 * sin (model.time)),
+
+group[curve (0,0) [Pull (10,0) (20,-10)]
+|> filled green
+|> scale 2
+|> move model.pos6,
+--leaf6--
+curve (0,0) [Pull (10,0) (20,-10)]
+|> filled lightYellow
+|> move (-20,10)
+|> scale 2
+|> rotate (degrees -180)
+|> move model.pos6] |> notifyMouseDown (ChangeDragState 6) |> move (-20 * sin (model.time),0)
+|> move (0,-20 * sin (model.time))
+]
+else
+group []
+,
+case model.dragState of
+Released -> group []
+Dragging2 -> rect 185 125
+|> ghost
+|> notifyMouseMoveAt Drag2
+|> notifyLeave (ChangeDragState 0 )
+|> notifyMouseUp (ChangeDragState 0 )
+,
+if model.goals >= 6 then
+group [ roundedRect 80 15 2
+|> filled darkCharcoal
+, text "Back to Reactor"
+|> centered
+|> customFont "Impact"
+|> filled (hsl (degrees 30 * model.time) 1 0.5)
+|> move (0, -5)
+]
+|> notifyTap T1C
+else if model.time - model.cleanUpStartTime > timeAllowed then
+group [ roundedRect 70 15 2
+|> filled darkCharcoal
+, text "Retry"
+|> centered
+|> customFont "Impact"
+|> filled (hsl (degrees 30 * model.time) 1 0.5)
+|> move (0, -5)
+]
+|> notifyTap T1
+else
+group []
+]
+SwipeCardTask ->
+[ cardMachine1
+,
+wallet1
+,
+if model.cardGameState /= Pass then
+card
+|> move model.pos
+|> notifyMouseDown ChangeCardState
+else
+group []
+,
+case model.cardState of
+Wallet -> group []
+Scanner -> group []
+Dragging -> rect 185 125
+|> ghost
+|> notifyMouseMoveAt Drag
+|> notifyLeave ChangeCardState
+|> notifyMouseUp ChangeCardState
+,
+wallet2
+,
+cardMachine2
+,
+text (case model.cardGameState of
+InWallet -> if model.cardState == Wallet then
+"PLEASE INSERT CARD"
+else
+"PLEASE SWIPE CARD"
+Idle -> "PLEASE SWIPE CARD"
+TooFast -> "TOO FAST, TRY AGAIN"
+TooSlow -> "TOO SLOW, TRY AGAIN"
+BadRead -> "BAD READ, TRY AGAIN"
+Pass -> "TASK COMPLETED!")
+|> size 7
+|> centered
+|> customFont "Impact"
+|> filled (hsl (degrees 30 * model.time) 1 0.5)
+|> move (0, 40)
+,
+if model.cardGameState == Pass then
+group [ roundedRect 70 15 2
+|> filled darkCharcoal
+|> notifyTap T2
+, text "Back to Admin"
+|> centered
+|> customFont "Impact"
+|> filled (hsl (degrees 30 * model.time) 1 0.5)
+|> move (0, -5)
+]
+|> notifyTap T2C
+else
+group []
+]
+
+type Msg = Tick Float GetKeyState
+| P1L
+| P1UL
+| P1LD
+| P2DL
+| P2DR
+| P2D
+| P3RDR
+| P3RDRU
+| P4UR
+| P4U
+| P4LU
+| P2R
+| P2L
+| P2RD
+| P2LD
+| P3DR
+| T1
+| T2
+| T2F
+| T2C
+| T1C
+| T1F
+| ChangeCardState
+| Drag (Float, Float)
+| Drag2 (Float, Float)
+| ChangeDragState Int
+
+type State = Cafeteria
+| UpperEngine
+| MedBay
+| Reactor
+| Security
+| LowerEngine
+| Storage
+| Electrical
+| Admin
+| CleanUpTask
+| SwipeCardTask
+
+update msg model =
+case msg of
+Tick t _ ->
+case model.dragState of
+Dragging2 -> { model | time = t }
+Released -> if inGoal model.pos1 then
+{ model | time = t
+, pos1 = (1000,1000)
+, goals = model.goals + 1}
+else if inGoal model.pos2 then
+{ model | time = t
+, pos2 = (1000,1000)
+, goals = model.goals + 1}
+else if inGoal model.pos3 then
+{ model | time = t
+, pos3 = (1000,1000)
+, goals = model.goals + 1}
+else if inGoal model.pos4 then
+{ model | time = t
+, pos4 = (1000,1000)
+, goals = model.goals + 1}
+else if inGoal model.pos5 then
+{ model | time = t
+, pos5 = (1000,1000)
+, goals = model.goals + 1}
+else if inGoal model.pos6 then
+{ model | time = t
+, pos6 = (1000,1000)
+, goals = model.goals + 1}
+else { model | time = t }
+P1L ->
+case model.state of
+Cafeteria ->
+{ model | state = UpperEngine }
+otherwise ->
+model
+P1UL ->
+case model.state of
+MedBay ->
+{ model | state = UpperEngine }
+otherwise ->
+model
+P1LD ->
+case model.state of
+Cafeteria ->
+{ model | state = MedBay }
+otherwise ->
+model
+P2DL ->
+case model.state of
+UpperEngine ->
+{ model | state = Reactor }
+otherwise ->
+model
+P2DR ->
+case model.state of
+UpperEngine ->
+{ model | state = Security }
+otherwise ->
+model
+P2D ->
+case model.state of
+UpperEngine ->
+{ model | state = LowerEngine }
+otherwise ->
+model
+P3RDR ->
+case model.state of
+LowerEngine ->
+{ model | state = Storage }
+otherwise ->
+model
+P3RDRU ->
+case model.state of
+LowerEngine ->
+{ model | state = Electrical }
+otherwise ->
+model
+P4UR ->
+case model.state of
+Storage ->
+{ model | state = Admin }
+otherwise ->
+model
+P4U ->
+case model.state of
+Storage ->
+{ model | state = Cafeteria }
+otherwise ->
+model
+P4LU ->
+case model.state of
+Admin ->
+{ model | state = Cafeteria }
+otherwise ->
+model
+P2R ->
+case model.state of
+Reactor ->
+{ model | state = Security }
+otherwise ->
+model
+P2L ->
+case model.state of
+Security ->
+{ model | state = Reactor }
+otherwise ->
+model
+P2RD ->
+case model.state of
+Reactor ->
+{ model | state = LowerEngine }
+otherwise ->
+model
+P2LD ->
+case model.state of
+Security ->
+{ model | state = LowerEngine }
+otherwise ->
+model
+P3DR ->
+case model.state of
+Electrical ->
+{ model | state = Storage }
+otherwise ->
+model
+T1 ->
+case model.state of
+Reactor ->
+{ model | state = CleanUpTask
+, cleanUpStartTime = model.time
+, dragState = Released
+, pos1 = (0, 0)
+, pos2 = (30, 30)
+, pos3 = (-30, 0)
+, pos4 = (30, 0)
+, pos5 = (-30, -30)
+, pos6 = (0, -30)
+, shape = 0
+, goals = 0 }
+CleanUpTask ->
+{ model | state = CleanUpTask
+, cleanUpStartTime = model.time
+, dragState = Released
+, pos1 = (0, 0)
+, pos2 = (30, 30)
+, pos3 = (-30, 0)
+, pos4 = (30, 0)
+, pos5 = (-30, -30)
+, pos6 = (0, -30)
+, shape = 0
+, goals = 0 }
+otherwise ->
+model
+T2 ->
+case model.state of
+Admin ->
+{ model | state = SwipeCardTask
+, swipeStartTime = model.time
+, cardGameState = InWallet
+, pos = (-22.5,-37.5)
+, cardState = Wallet }
+otherwise ->
+model
+T2F ->
+case model.state of
+SwipeCardTask ->
+{ model | state = SwipeCardTask
+, swipeStartTime = model.time }
+otherwise ->
+model
+T2C ->
+case model.state of
+SwipeCardTask ->
+{ model | state = Admin }
+otherwise ->
+model
+T1C ->
+case model.state of
+CleanUpTask ->
+{ model | state = Reactor }
+otherwise ->
+model
+T1F ->
+case model.state of
+CleanUpTask ->
+{ model | state = CleanUpTask
+, cleanUpStartTime = model.time
+, dragState = Released
+, pos1 = (0, 0)
+, pos2 = (30, 30)
+, pos3 = (-30, 0)
+, pos4 = (30, 0)
+, pos5 = (-30, -30)
+, pos6 = (0, -30)
+, shape = 0
+, goals = 0 }
+otherwise ->
+model
+Drag (x,y) -> { model | pos = case model.cardState of
+Wallet -> (-45,15)
+Scanner -> (-45,15)
+Dragging -> (x,15)
+}
+ChangeCardState -> { model | cardState = case model.cardState of
+Wallet -> Scanner
+Scanner -> Dragging
+Dragging -> Scanner
+, cardGameState = if (Tuple.second model.pos) > 0 then
+if model.cardState == Wallet then
+Idle
+else
+if model.cardState == Dragging then
+if (Tuple.first model.pos) >= 70 then
+if model.time - model.swipeStartTime < 1 then
+TooFast
+else
+if model.time - model.swipeStartTime > 2 then
+TooSlow
+else
+Pass
+else
+BadRead
+else
+model.cardGameState
+else
+InWallet
+, pos = (-45,15)
+, swipeStartTime = model.time
+}
+--Pos(number) for 1 of 6 leaves--
+Drag2 (x, y) -> { model | pos1 = case model.shape of
+1 -> (x,y)
+_ -> model.pos1
+, pos2 = case model.shape of
+2 -> (x,y)
+_ -> model.pos2
+, pos3 = case model.shape of
+3 -> (x,y)
+_ -> model.pos3
+, pos4 = case model.shape of
+4 -> (x,y)
+_ -> model.pos4
+, pos5 = case model.shape of
+5 -> (x,y)
+_ -> model.pos5
+, pos6 = case model.shape of
+6 -> (x,y)
+_ -> model.pos6
+}
+ChangeDragState x -> { model | dragState = case model.dragState of
+Released -> Dragging2
+Dragging2 -> Released
+, shape = x }
+
+type CardState = Wallet | Scanner | Dragging
+type CardGameState = InWallet | Idle | TooFast | TooSlow | BadRead | Pass
+
+type DragState = Released | Dragging2
+
+type alias Model =
+{ time : Float
+, state : State
+, cleanUpStartTime : Float
+, swipeStartTime : Float
+, cardState : CardState
+, pos : (Float, Float)
+, cardGameState : CardGameState
+, dragState : DragState
+, pos1 : (Float, Float)
+, pos2 : (Float, Float)
+, pos3 : (Float, Float)
+, pos4 : (Float, Float)
+, pos5 : (Float, Float)
+, pos6 : (Float, Float)
+, shape : Int
+, goals : Int
+}
+
+init : Model
+init = { time = 0
+, state = Cafeteria
+, cleanUpStartTime = 0
+, swipeStartTime = 0
+, cardState = Wallet
+, pos = (-22.5,-37.5)
+, cardGameState = InWallet
+, dragState = Released
+, pos1 = (0, 0)
+, pos2 = (30, 30)
+, pos3 = (-30, 0)
+, pos4 = (30, 0)
+, pos5 = (-30, -30)
+, pos6 = (0, -30)
+, shape = 0
+, goals = 0
+}
+
+cardMachine1 = group [
+square 100 |> filled charcoal |> addOutline (solid 1) black
+, polygon [ (-50,15), (-45, 17.5), (50,17.5), (50,5), (-50,5) ] |> filled grey |> addOutline (solid 1) black
+]
+
+wallet1 = group [
+rectangle 90 35 |> filled darkBrown |> addOutline (solid 1) black
+, curve (0,0) [Pull (10,0) (20,-10)] |> filled darkGrey |> scale 3 |> rotate (degrees 24) |> addOutline (solid 0.3) black |> move (-25, 10)
+, rectangle 45 27.5 |> filled darkBrown |> addOutline (solid 1) black |> move (-22.5,-3.5)
+] |> move (0, -32.5)
+
+card = group [
+roundedRect 40 25 5 |> filled grey |> addOutline (solid 0.25) black
+, roundedRect 15 20 2 |> filled darkGrey |> addOutline (solid 0.5) black |> move (-10,0)
+, roundedRect 12 18 6.5 |> filled charcoal |> addOutline (solid 0.25) black |> move (-9, -1)
+, roundedRect 8 4 1.5 |> filled grey |> addOutline (solid 0.25) black |> move (-12, 1.5)
+]
+
+wallet2 = group [
+rectangle 45 20 |> filled darkBrown |> addOutline (solid 1) black |> move (-22.5,-7)
+, rectangle 45 12.5 |> filled darkBrown |> addOutline (solid 1) black |> move (-22.5,-11)
+, rectangle 45 27.5 |> filled darkBrown |> addOutline (solid 1) black |> move (22.5,-3.5)
+, rectangle 40 27.5 |> filled darkBrown |> addOutline (solid 1) black |> move (25,-3.5)
+, rectangle 30 22.5 |> filled blue |> addOutline (solid 1) black |> move (25,-6)
+, roundedRect 12 18 6.5 |> filled orange |> addOutline (solid 0.5) black |> move (20, -7.5)
+, roundedRect 8 4 1.5 |> filled grey |> addOutline (solid 0.5) black |> move (23, -5)
+] |> move (0, -32.5)
+
+cardMachine2 = group [
+polygon [ (-50,50), (50,50), (50,20), (-45,20), (-50,25) ] |> filled grey |> addOutline (solid 1) black
+, rect 80 7.5 |> filled darkGreen |> addOutline (solid 1) black |> move (0, 42.5)
+, polygon [ (-49, 40), (-45, 30), (-45, 25), (-12.5, 25), (-15, 30), (5, 21), (-45, 21), (-49, 25) ] |> filled black
+, circle 2.5 |> filled darkGreen |> addOutline (solid 0.5) black |> move (45, 25)
+, circle 2.5 |> filled darkRed |> addOutline (solid 0.5) black |> move (37.5, 25)
+]
+
+inGoal (x,y) = x < -60
+
+timeAllowed = 30
+
+-----3D share Link: https://macoutreach.rocks/share/003c323e -----
