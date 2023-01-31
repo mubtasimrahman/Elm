@@ -1,0 +1,134 @@
+myShapes model =
+  [
+    myRoad black,
+    mySky lightBlue,
+    myRoadmarks1 white,
+    myRoadmarks2 white,
+    myRoadmarks3 white,
+    myRoadmarks4 white,
+    myRoadmarks5 white,
+    myCar |> move (10 * sin (model.time),0),
+    myHubcaps1 |> rotate (model.time*10) |> move (-40,-35)|> move (10 * sin (model.time),0),
+    myHubcaps2 |> rotate (model.time*10) |> move (40,-35)|> move (10 * sin (model.time),0)
+    ]
+
+myRoad colour= rectangle 96 64
+              |> filled colour
+              |> scale 5
+
+mySky colour = rectangle 96 20
+              |> filled colour 
+              |> scale 5
+              |> move (0,30)
+              
+myRoadmarks1 colour = rectangle 4 1
+                    |> filled colour 
+                    |> scale 5
+                    |> move (0,-40) 
+
+myRoadmarks2 colour = rectangle 4 1
+                    |> filled colour 
+                    |> scale 5
+                    |> move (-40,-40)
+                    
+
+myRoadmarks3 colour = rectangle 4 1
+                    |> filled colour 
+                    |> scale 5
+                    |> move (-80,-40)
+                    
+myRoadmarks4 colour = rectangle 4 1
+                    |> filled colour 
+                    |> scale 5
+                    |> move (40,-40) 
+                    
+myRoadmarks5 colour = rectangle 4 1
+                    |> filled colour 
+                    |> scale 5
+                    |> move (80,-40) 
+
+myBody1 = curve (170,0) [Pull (75,80) (0,0) ]
+  |> filled (rgb 255 150 0)
+  |> move (-85,-20)
+  |> scale 0.65
+  
+myBody2 colour = rectangle 4.445 1 
+          |> filled colour
+          |> scale 25
+          |> move (0,-25.5)
+          
+myBody3= curve (170,0) [Pull (75,60)(-50,0)]
+  |> filled hotPink
+  |> move (-62,-20)
+  |> scale 0.45
+
+myBacklight colour = roundedRect 25 10 10
+                    |> filled colour
+                    |> scale 0.60
+                    |> move (-48,-16)
+
+myFrontlight = rectangle 15 6
+                    |> filled yellow
+                    |> move (48,-16)
+                    
+
+mytire1 colour = circle 10 
+                 |> filled colour
+                 |> move (-40,-35)
+
+mytire2 colour = circle 10 
+                 |> filled colour
+                 |> move (40,-35)
+                 
+myspoke1 = circle 6.5
+           |> filled lightCharcoal
+           |> move (-40,-35)
+
+myspoke2 = circle 6.5
+           |> filled lightCharcoal
+           |> move (40,-35)
+           
+myinnerspoke2 = circle 3
+           |> filled darkCharcoal
+           |> move (40,-35)
+
+myinnerspoke1 = circle 3
+                |> filled darkCharcoal
+                |> move (-40,-35)
+myHubcaps1 = ngon 5 1.5
+             |> filled lightCharcoal
+            
+             
+myHubcaps2= ngon 5 1.5
+             |> filled lightCharcoal
+             
+             
+mylines1 = polygon [(0,0),(0,24)]
+      |> outlined (solid 0.85) (black)
+      |> move (-20,-13)
+      
+mylines2 = polygon [(0,0),(0,25)]
+      |> outlined (solid 0.85) (black)
+      |> move (28,-38)
+      
+mylines3= polygon [(0,0),(-71,85)]
+      |> outlined (solid 2.25) (black)
+      |> scale 0.3
+      |> move (1,-38)
+      
+mylines4 = polygon [(0,0),(-71,85)]
+      |> outlined (solid 2.25) (black)
+      |> scale 0.3
+      |> move (28,-13)
+            
+myHandle = rectangle 5 2
+          |> filled black
+          |> move (20,-20)
+      
+
+
+myCar = group [myBody1, myBody2 orange, myBacklight yellow, mytire1 darkCharcoal, 
+        mytire2 darkCharcoal,myFrontlight, myspoke1, myspoke2, myinnerspoke2, myinnerspoke1,
+         myBody3, mylines1,mylines2,mylines3,myHandle,
+         mylines4
+        ]
